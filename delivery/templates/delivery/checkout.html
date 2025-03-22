@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    h2 {
+      color: #555;
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+    
+    table {
+      width: 50%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+    
+    th {
+      background: #ff6b6b;
+      color: white;
+      font-size: 18px;
+    }
+    
+    td {
+      font-size: 16px;
+      color: #333;
+    }
+    
+    h3 {
+      color: #222;
+      margin-top: 20px;
+    }
+    
+    #error-message {
+      color: red;
+      font-size: 16px;
+    }
+    
+    #rzp-button {
+      padding: 12px 20px;
+      margin-top: 20px;
+      background: #528FF0;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    } 
+  </style>   
+  </head>
+  <body>
+    <h1>Checkout</h1>
+    <h2>Welcome, {{ username }}</h2>
+
+    {% if error %}
+    <p style="color: red">{{ error }}</p>
+    {% else %}
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart_items %}
+        <tr>
+          <td>{{ item.item_name }}</td>
+          <td>₹{{ item.price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <h3>Total: ₹{{ total_price }}</h3>
+
+    <button id="rzp-button">Pay with Razorpay</button>
+    {% endif %}
+
+    <script>
+      var options = {
+        key: "{{ razorpay_key_id }}", // Razorpay API key
+        amount: "{{ total_price|floatformat:2|add:'0.00'|floatformat:2 }}00", // Amount in paisa
+        currency: "INR",
+        name: "Meal Mate",
+        description: "Order Payment",
+        order_id: "{{ order_id }}", // Razorpay order ID
+        handler: function (response) {
+          alert("Payment Successful!");
+          // Redirect to the orders page
+          window.location.href = "{% url 'delivery:orders' username %}";
+        },
+        prefill: {
+          name: "{{ username }}",
+          email: "customer@example.com",
+          contact: "9999999999",
+        },
+        theme: {
+          color: "#528FF0",
+        },
+      };
+      var rzp = new Razorpay(options);
+
+      document.getElementById("rzp-button").onclick = function (e) {
+        rzp.open();
+        e.preventDefault();
+      };
+    </script>
+  </body>
+</html>

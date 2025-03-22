@@ -1,0 +1,55 @@
+<style>
+body {
+    background-color: lightslategrays;
+}
+form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background:lavenderblush;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #0056b3;
+}
+</style>
+{% extends "delivery/base.html" %}{% block content %}
+<br>
+<form method="POST" action="{% url 'delivery:handle_signin' %}">
+    {% csrf_token %}
+    <label>Username</label>
+    <input type="text" name="username" />
+    <label>Password</label>
+    <input type="password" name="password" />
+   <button>Sign In</button>
+</form>
+{% endblock %}
