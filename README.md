@@ -1,9 +1,7 @@
-
 # 🍽️ **Mealmate - Online Food Ordering System**  
 
 > **A Django-based food ordering system where restaurant owners manage their menus, and customers can browse, order, and pay securely via Razorpay.**  
 
-![Mealmate Banner](https://source.unsplash.com/1200x400/?food,restaurant)  
 
 ---
 
@@ -114,4 +112,16 @@ mealmate/
 
 ## 💳 **Razorpay Payment Integration**  
 
-1️⃣ **Sign up** at [Razorpay](https
+1️⃣ **Sign up** at [Razorpay](https://razorpay.com)  
+2️⃣ **Get API keys** from the Razorpay Dashboard  
+3️⃣ **Add API keys** to Django settings:  
+
+```python
+RAZORPAY_KEY_ID = "your_key_id"
+RAZORPAY_KEY_SECRET = "your_key_secret"
+```
+
+---
+ 
+
+
