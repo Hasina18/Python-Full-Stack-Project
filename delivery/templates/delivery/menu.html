@@ -1,57 +1,157 @@
 {% extends "delivery/base.html" %} 
 {% block content %}
+
 <html>
-  <head>
+<head>
     <title>Menu - {{ res.Res_name }}</title>
-  </head>
-  <body>
-    <h2>Menu for {{ res.Res_name }}</h2>
-    <p>Address: {{ res.address }}</p>
-    <p>Category: {{ res.Food_cat }}</p>
-    <p>Rating: {{ res.rating }}</p>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f8ff; /* Light Blue Background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
 
-    <table border="1" style="width: 100vw">
-      <tr>
-        <th>Item Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Availability</th>
-        <th>Category</th>
-        <th>Actions</th>
-        <!-- New column for Delete Button -->
-      </tr>
-{% for item in menu %}
-      <tr>
-        <td>{{ item.item_name }}</td>
-        <td>{{ item.description }}</td>
-        <td>${{ item.price }}</td>
-       
-        <td>
-          {% if item.is_available %}Available{% else %}Not Available{% endif %}
-        </td>
-        <td>{{ item.category }}</td>
-        <td>
-          <!-- Delete Button as an <a> tag -->
-          <a
-            href="{}"
-            onclick="return confirm('Are you sure you want to delete this item?');"
-          >
-            <button>Delete</button>
-          </a>
-        </td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="6">No menu items available.</td>
-      </tr>
-      {% endfor %}
-    </table>
+        /* Restaurant Info */
+        .restaurant-info {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            max-width: 600px;
+        }
 
-    <!-- Add Menu Button Below the Table -->
-    <br />
-    <a href="{% url 'delivery:add_menu' res.id %}">
-      <button>Add Menu</button>
-    
-  </body>
-  {% endblock %}
+        .restaurant-info h2 {
+            color: #2c3e50;
+        }
 
+        /* Menu Grid */
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Menu Card */
+        .menu-item {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 280px;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item h3 {
+            margin: 10px 0;
+            font-size: 20px;
+            color: #34495e;
+        }
+
+        .menu-item p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+        .delete-btn, .add-menu-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c; /* Red */
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .add-menu-btn {
+            background: #2ecc71; /* Green */
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+
+        .add-menu-btn:hover {
+            background: #27ae60;
+        }
+
+        /* Availability Styles */
+        .available {
+            color: #2ecc71; /* Green */
+            font-weight: bold;
+        }
+
+        .not-available {
+            color: #e74c3c; /* Red */
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Restaurant Details -->
+    <div class="restaurant-info">
+        <h2>🍽️ Menu for {{ res.Res_name }}</h2>
+        <p><strong>📍 Address:</strong> {{ res.address }}</p>
+        <p><strong>🍛 Category:</strong> {{ res.Food_cat }}</p>
+        <p><strong>⭐ Rating:</strong> {{ res.rating }}</p>
+    </div>
+
+    <!-- Menu Items in Card Layout -->
+    <div class="menu-container">
+        {% for item in menu %}
+        <div class="menu-item">
+            <h3>{{ item.item_name }}</h3>
+            <p><strong>📝 Description:</strong> {{ item.description }}</p>
+            <p><strong>💰 Price:</strong> ${{ item.price }}</p>
+            <p><strong>📦 Availability:</strong> 
+                <span class="{% if item.is_available %}available{% else %}not-available{% endif %}">
+                    {% if item.is_available %}✅ Available{% else %}❌ Not Available{% endif %}
+                </span>
+            </p>
+            <p><strong>🍽️ Category:</strong> {{ item.category }}</p>
+            <a href="{}" onclick="return confirm('Are you sure you want to delete this item?');" class="delete-btn">
+                🗑️ Delete
+            </a>
+        </div>
+        {% empty %}
+        <p>No menu items available.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Add Menu Button -->
+    <a href="{% url 'delivery:add_menu' res.id %}" class="add-menu-btn">➕ Add Menu</a>
+
+</body>
+</html>
+
+{% endblock %}

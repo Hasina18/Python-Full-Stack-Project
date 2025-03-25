@@ -1,4 +1,90 @@
-{% extends "delivery/base.html" %}{% block content %}
-<h1>Login success</h1>
+{% extends "delivery/base.html" %} 
+
+{% block content %}
+<style>
+    /* Navbar styling */
+/* Navbar styling */
+nav {
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Keeps navbar on top */
+    display: flex;
+    justify-content: space-between; /* Ensures even spacing */
+    align-items: center;
+}
+
+/* Adjust Signup link slightly to the left */
+nav a.signup {
+    margin-left: -20px; /* Moves Signup slightly left */
+}
+
+/* Navbar links */
+nav a {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+/* Background styling */
+body {
+    background-image: url("https://static.vecteezy.com/system/resources/thumbnails/022/576/369/small/image-of-wooden-table-in-front-of-abstract-blurred-background-of-resturant-lights-wood-table-top-on-blur-of-lighting-in-night-cafe-restaurant-background-selective-focus-generative-ai-photo.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    padding-top: 80px; /* Prevents navbar from overlapping content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Centered text */
+h1 {
+    color: #fff;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+/* Styled button */
+a {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #ff8c00, #ff2e63);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+a:hover {
+    background: linear-gradient(135deg, #ff2e63, #ff8c00);
+    transform: scale(1.05);
+}
+
+
+</style>
+
+<!-- Page Content -->
+<h1>Login Success</h1>
 <a href="{% url 'delivery:add_res' %}">Add Restaurants</a>
- {% endblock %}
+
+{% endblock %}

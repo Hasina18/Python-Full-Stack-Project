@@ -1,25 +1,85 @@
 {% extends "delivery/base.html" %}
 
 {% block content %}
-<br>
-<form method="POST">
-    {% csrf_token %}
-  
-    <label>Restaurant Name:</label>
-    {{ form.Res_name }}
-  
-    <label>Food Category:</label>
-    {{ form.Food_cat }}
-  
-    <label>Rating:</label>
-    {{ form.rating }}
-  
-    <label>Image:</label>
-    {{ form.img }}
-  
-    <label>Address:</label>
-    {{ form.address }}
-  
-    <button type="submit">Submit</button>
-  </form>
-  {% endblock %}
+<style>
+  body {
+        font-family: 'Poppins', sans-serif;
+        background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20241007/pngtree-restaurant-menu-with-fast-food-images-through-online-banners-social-image_16290915.jpg');
+        background-size: cover;  /* Ensures the image covers the entire page */
+        background-position: center;  /* Centers the image */
+        background-repeat: no-repeat;  /* Prevents tiling */
+        height: 100vh;  /* Full viewport height */
+        width: 100vw;  /* Full viewport width */
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 450px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    label {
+        font-weight: 600;
+        margin-top: 10px;
+        color: #6a0572;
+    }
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        transition: 0.3s ease-in-out;
+    }
+    input:focus, select:focus, textarea:focus {
+        border-color: #a040a0;
+        box-shadow: 0px 0px 5px rgba(160, 64, 160, 0.5);
+    }
+    button {
+        margin-top: 20px;
+        padding: 12px;
+        font-size: 18px;
+        color: white;
+        background: #009688;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s ease-in-out;
+    }
+    button:hover {
+        background: #00796b;
+        box-shadow: 0px 0px 8px rgba(0, 150, 136, 0.6);
+    }
+</style>
+
+<div class="container">
+    <form method="POST">
+        {% csrf_token %}
+      
+        <label>Restaurant Name:</label>
+        {{ form.Res_name }}
+      
+        <label>Food Category:</label>
+        {{ form.Food_cat }}
+      
+        <label>Rating:</label>
+        {{ form.rating }}
+      
+        <label>Image:</label>
+        {{ form.img }}
+      
+        <label>Address:</label>
+        {{ form.address }}
+      
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endblock %}
+

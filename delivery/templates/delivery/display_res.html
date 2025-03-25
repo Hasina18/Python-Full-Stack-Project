@@ -1,10 +1,17 @@
 {% extends "delivery/base.html" %}
 {% block content %}
 <style>
-    body {
-        background-color:lightblue; /* Light background for the page */
+   body {
+        font-family: 'Poppins', sans-serif;
+        background-image: url('https://t4.ftcdn.net/jpg/01/81/69/23/360_F_181692318_c2bwRT9lEgfPmIQCcGqIaPmnTDYwBLSe.jpg');
+        background-size: cover;  /* Ensures the image covers the entire page */
+        background-position: center;  /* Centers the image */
+        background-repeat: no-repeat;  /* Prevents tiling */
+        height: 100vh;  /* Full viewport height */
+        width: 100vw;  /* Full viewport width */
+        margin: 0;
+        padding: 0;
     }
-
     .restaurant-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 items per row */

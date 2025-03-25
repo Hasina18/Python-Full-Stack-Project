@@ -1,8 +1,122 @@
 {% extends "delivery/base.html" %}
 {% block content %}
-<div style="margin-top: 50px;"></div>
-<form method="POST">
-    {% csrf_token %} {{form}}
-    <button>Submit</button>
-</form>
+
+<style>
+    /* Centering the Form */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-image: url('https://t3.ftcdn.net/jpg/07/79/61/38/360_F_779613852_x4vfn9ULfHl9JKX43H3z7m78lE4H2Mze.jpg');
+        background-size: cover;  /* Ensures the image covers the entire page */
+        background-position: center;  /* Centers the image */
+        background-repeat: no-repeat;  /* Prevents tiling */
+        height: 100vh;  /* Full viewport height */
+        width: 100vw;  /* Full viewport width */
+        margin: 0;
+        padding: 0;
+    }
+    .form-container {
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 25px;
+        background: #f9f9f9;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Form Styling */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* Form Row */
+    .form-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        color: #333;
+        width: 30%;
+        text-align: right;
+    }
+
+    input, select, textarea {
+        width: 65%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Submit Button */
+    .submit-btn {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    button {
+        padding: 12px 30px;
+        background: #28a745; /* Green */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    button:hover {
+        background: #218838;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+        .form-row {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label {
+            width: 100%;
+            text-align: left;
+        }
+
+        input, select, textarea {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="form-container">
+    <h2 style="text-align: center;">Fill the Form</h2>
+    <form method="POST">
+        {% csrf_token %}
+        
+        {% for field in form %}
+        <div class="form-row">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        
+        <div class="submit-btn">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
 {% endblock %}
+

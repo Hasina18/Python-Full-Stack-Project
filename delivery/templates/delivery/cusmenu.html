@@ -1,110 +1,171 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Food Delivery</title>
-    <style>
-      nav {
-        background-color: #333;
-        padding: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .nav-links {
-        display: flex;
-        gap: 15px;
-      }
-      .nav-links a {
-        text-decoration: none;
-        color: white;
-        padding: 10px 15px;
-        background-color: #555;
-        border-radius: 5px;
-      }
-      .nav-links a:hover {
-        background-color: #777;
-      }
-      
-    </style>
-  </head>
-  <body>
-    <nav>
-      <h2 style="color: white">Food Delivery</h2>
-      <div class="nav-links">
-        <a href="{% url 'delivery:cusdisplay_res' username %}"
-          >View Restaurants</a
-        >
-        <a href="{% url 'delivery:sign_in' %}">Sign In</a>
-        <a href="{% url 'delivery:sign_up' %}">Sign Up</a>
-      </div>
-    </nav>
-  </body>
-</html>
-<div style="margin-top: 50px"></div>
-<html>
-  <head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu - {{ res.Res_name }}</title>
-  </head>
-  <body>
-    <h2>Menu for {{ res.Res_name }}</h2>
-    <p>Address: {{ res.address }}</p>
-    <p>Category: {{ res.Food_cat }}</p>
-    <p>Rating: {{ res.rating }}</p>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://i.pinimg.com/736x/7f/c8/d2/7fc8d29ef6b6bd77643a17368c229150.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            color: white;
+            text-align: center;
+        }
 
-    <table border="1" style="width: 100vw">
-      <tr>
-        <th>Item Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Availability</th>
-        <th>Category</th>
-        <th>Actions</th>
-        <!-- New column for Delete Button -->
-      </tr>
-{% for item in menu %}
-      <tr>
-        <td>{{ item.item_name }}</td>
-        <td>{{ item.description }}</td>
-        <td>${{ item.price }}</td>
-       
-        <td>
-          {% if item.is_available %}Available{% else %}Not Available{% endif %}
-        </td>
-        <td>{{ item.category }}</td>
-        <td>
-          <form
-            method="POST"
-            action="{% url 'delivery:add_to_cart' item.id username %}"
-          >
-            {% csrf_token %}
-            <button
-              type="submit"
-              onclick="return confirm('Are you sure you want to add to cart?')"
-            >
-              Add to Cart
-            </button>
-          </form>
-        </td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="6">No menu items available.</td>
-      </tr>
-      {% endfor %}
-    </table>
+        /* Navbar */
+        nav {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    <!-- Add Menu Button Below the Table -->
-    <br />
-    <a href="{% url 'delivery:add_menu' res.id %}">
-      <button>Add Menu</button>
-      <br />
-      <br />
-    <a href="{% url 'delivery:show_cart' username %}">Show Cart</a>
-        
-    
-  </body>
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 15px;
+            background-color: #555;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #777;
+        }
+
+        /* Menu Grid */
+        .menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.8);
+            color: black;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item h3 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .menu-item p {
+            margin: 5px 0;
+        }
+
+        .add-to-cart {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: lightseagreen;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: plum;
+        }
+
+        /* Restaurant Details */
+        .restaurant-info {
+            margin: 20px auto;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        /* Buttons */
+        .menu-actions {
+            margin: 20px;
+        }
+
+        .menu-actions a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background: #ff5733;
+            color: white;
+            border-radius: 5px;
+            margin: 10px;
+            display: inline-block;
+        }
+
+        .menu-actions a:hover {
+            background: #c70039;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h2 style="color: white">Food Delivery</h2>
+        <div class="nav-links">
+            <a href="{% url 'delivery:cusdisplay_res' username %}">View Restaurants</a>
+            <a href="{% url 'delivery:sign_in' %}">Sign In</a>
+            <a href="{% url 'delivery:sign_up' %}">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Menu Items (Now Above Restaurant Details) -->
+    <h2>Menu</h2>
+    <div class="menu-container">
+        {% for item in menu %}
+        <div class="menu-item">
+            <h3>{{ item.item_name }}</h3>
+            <p><strong>Description:</strong> {{ item.description }}</p>
+            <p><strong>Price:</strong> ${{ item.price }}</p>
+            <p><strong>Availability:</strong> {% if item.is_available %}✅ Available{% else %}❌ Not Available{% endif %}</p>
+            <p><strong>Category:</strong> {{ item.category }}</p>
+            <form method="POST" action="{% url 'delivery:add_to_cart' item.id username %}">
+                {% csrf_token %}
+                <button class="add-to-cart" type="submit" onclick="return confirm('Are you sure you want to add to cart?')">Add to Cart</button>
+            </form>
+        </div>
+        {% empty %}
+        <p>No menu items available.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Restaurant Details (Now Below Menu) -->
+    <div class="restaurant-info">
+        <h2>{{ res.Res_name }}</h2>
+        <p><strong>Address:</strong> {{ res.address }}</p>
+        <p><strong>Category:</strong> {{ res.Food_cat }}</p>
+        <p><strong>Rating:</strong> ⭐ {{ res.rating }}</p>
+    </div>
+
+    <!-- Additional Actions -->
+    <div class="menu-actions">
+        <!-- <a href="{% url 'delivery:add_menu' res.id %}">Add Menu</a> -->
+        <a href="{% url 'delivery:show_cart' username %}">Show Cart</a>
+    </div>
+
+</body>
+</html>
+
 
 
